@@ -5,11 +5,26 @@
 </head>
 <body>
 <canvas id="myCanvas" height=200 width=200 style="border:1px solid #000000;"></canvas>
+<br>Speed<br>
+<input type="radio" id="r3_s" name="speed" value="50">Slow<br>
+<input type="radio" id="r3_n" name="speed" value="25" checked>Normal<br>
+<input type="radio" id="r3_f" name="speed" value="5">Fast<br>
+
+<br>Shape<br>
+<input type="radio" id="rb2_s" name="form" value="Square">Square<br>
+<input type="radio" id="rb2_c" name="form" value="Circle" checked>Circle<br>
+<button onclick="drawFigure(x)">Change form</button>
+
+<br>Colour<br>
+<input type="radio" id="rb1_r" name="colour" value="Red" checked>Red<br>
+<input type="radio" id="rb1_b" name="colour" value="Blue">Blue<br>
 
 <script>
 // set up initial variables
 	var c = document.getElementById("myCanvas");
 	var ctx = c.getContext("2d");
+  var speed = 25;
+
 
   ctx.beginPath();
   ctx.moveTo(100,0);
@@ -19,22 +34,90 @@
 function drawCircle(x){
   ctx.beginPath();
   ctx.arc(x,100,10,0,2*Math.PI);
+  if(document.getElementById("rb1_r").checked){
   ctx.fillStyle="red";
+}
+else if (document.getElementById("rb1_b").checked)
+{
+ctx.fillStyle="blue";
+}
   ctx.fill();
 }
-function changeColour(x){
-  ctx.fillStyle="randomColors()";
+
+function drawSquare(x){
+  ctx.beginPath();
+  ctx.rect(x,0,100,10,10);
+  if(document.getElementById("rb1_r").checked){
+  ctx.fillStyle="red";
+}
+else if (document.getElementById("rb1_b").checked)
+{
+ctx.fillStyle="blue";
+}
   ctx.fill();
 }
-function randomColors() {
-  return '#' + Math.floor(Math.random() * 16777215).toString(16);
-}
+
 var x = 0;
+var intersquare;
+var intercircle;
+function drawFigure(x){
+if(document.getElementById("rb2_s").checked){
+clearInterval(intercircle);
+intersquare=setInterval(function(){
+  ctx.clearRect(0,0,200,200);
+  drawSquare(x%200);
+  x++;
+},25);
+}
+else if(document.getElementById("rb2_c").checked){
+  clearInterval(intersquare);
+  intercircle =setInterval(function(){
+    ctx.clearRect(0,0,200,200);
+    drawCircle(x%200);
+    x++;
+  },25);
+}
+}
+
+function changeColour(){
+
+}
+
+
+
+/*function checkSpeed(speed){
+    var speed = 25;
+  if(document.getElementById("r3_s").checked){
+                speed= document.getElementById("r3_s").value;
+                return speed;
+              }
+if(document.getElementById("r3_n").checked){
+                speed= document.getElementById("r3_n").value;
+                return speed;
+              }
+if(document.getElementById("r3_f").checked){
+                speed= document.getElementById("r3_f").value;
+                return speed;
+              }
+
+}*/
+//function changeColour(x){
+//  ctx.fillStyle="randomColors()";
+//  ctx.fill();
+//}
+//function randomColors() {
+//  return '#' + Math.floor(Math.random() * 16777215).toString(16);
+//}
+//while(true){
+/*
 setInterval(function(){
   ctx.clearRect(0,0,200,200);
   drawCircle(x%200);
   x++;
-}, 25);
+},25);
+*/
+
+//}
 </script>
 </body>
 </html>
